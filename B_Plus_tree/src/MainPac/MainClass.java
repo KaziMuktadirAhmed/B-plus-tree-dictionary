@@ -1,9 +1,8 @@
 package MainPac;
 
-import java.io.FileNotFoundException;
-import java.util.*;
-import Dictionaries.*;
 import Dictionaries.Dictionary;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
 
 public class MainClass {
     public static void main(String[] args) throws FileNotFoundException {
@@ -13,11 +12,7 @@ public class MainClass {
     public static void test () throws FileNotFoundException {
         Dictionary dc = new Dictionary();
 
-        Scanner scan = new Scanner(System.in);
-        String str = new String();
-        str = scan.nextLine();
-        System.out.println("Scanned: "+str+" ইংরেজী বর্ণমালার আদ্যাক্ষর");
-
-        dc.test_from_file();
+        Scanner inputscan = new Scanner(System.in);
+        dc.printMeaningWithIndex(inputscan.nextInt());
     }
 }
