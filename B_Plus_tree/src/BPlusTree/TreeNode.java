@@ -1,9 +1,9 @@
 package BPlusTree;
 
 public class TreeNode extends Node{
-    private int minSlot;
-    private int maxSlot;
-    private int currentChildCount;
+    public int minSlot;
+    public int maxSlot;
+    public int currentChildCount;
 
     // still unsure about this two
     private TreeNode leftSibling;
@@ -23,7 +23,7 @@ public class TreeNode extends Node{
         this.maxSlot = n;
         this.minSlot = (int) Math.ceil(n/2.0);
         this.keys = keys;
-        this.currentChildCount = BPlusTree.linierLNullSearch(keys);
+        this.currentChildCount = BPlusTree.linierLNullSearch(childs);
         this.childs = childs;
     }
 
