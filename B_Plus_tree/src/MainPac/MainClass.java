@@ -11,7 +11,6 @@ public class MainClass {
     }
     public static void test () throws FileNotFoundException {
         Dictionary dc = new Dictionary();
-
         Scanner inputscan = new Scanner(System.in);
         dc.printMeaningWithIndex(inputscan.nextInt());
     }

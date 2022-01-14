@@ -1,6 +1,6 @@
 package Dictionaries;
 
-public class WordMeaning {
+public class WordMeaning implements Comparable<WordMeaning>{
     public String engWord;
     public String bngMeaning;
 
@@ -16,5 +16,13 @@ public class WordMeaning {
 
     public void print () {
         System.out.println(engWord + " = " + bngMeaning);
+    }
+
+    @Override
+    public int compareTo(WordMeaning o) {
+        int comapareValue = this.engWord.compareTo(o.engWord);
+        if (comapareValue  == 0)    return 0;
+        else if (comapareValue > 0)     return 1;
+        else    return -1;
     }
 }
