@@ -8,13 +8,16 @@ import java.util.Scanner;
 
 public class MainClass {
     public static void main(String[] args) throws FileNotFoundException {
-//        System.out.println("hello");
 //        test();
         run();
     }
     public static void test () throws FileNotFoundException {
-        String str = "keyword";
-        System.out.println(str.compareTo("keyword"));
+        Dictionary dictionary = new Dictionary();
+
+        Scanner scanInput = new Scanner(System.in);
+        int i =  scanInput.nextInt();
+
+        dictionary.wordList.get(i).print();
     }
     
     public static void run () throws FileNotFoundException {

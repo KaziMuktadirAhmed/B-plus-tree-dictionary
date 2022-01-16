@@ -2,22 +2,18 @@ package BPlusTree;
 
 import Dictionaries.WordMeaning;
 
-import java.io.FileNotFoundException;
 import java.util.Arrays;
 import java.util.Comparator;
 
 public class BPlusTree {
-//    private Dictionary dictionary = new Dictionary();
-    public int n = 5;
+    public int n;
 
     public TreeNode root;
     public LeafNode firstLeaf;
 
-//    public  BPlusTree () throws FileNotFoundException {}
-    public  BPlusTree (int n) throws FileNotFoundException {
+    public  BPlusTree (int n) {
         this.n = n;
         this.root = null;
-//        this.firstLeaf = new LeafNode();
     }
 
     private int searchInsideNodes (WordMeaning[] wordMeanings, int listSize, String target) {

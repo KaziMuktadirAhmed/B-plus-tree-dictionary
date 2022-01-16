@@ -14,7 +14,6 @@ public class LeafNode extends Node{
 
     public WordMeaning[] wordMeanings;
 
-    // public LeafNode () {}
     public LeafNode (int n, WordMeaning[] keys, TreeNode parent) {
         this.maxSlot = n - 1;
         this.minSlot = (int) (Math.ceil(n/2) - 1);

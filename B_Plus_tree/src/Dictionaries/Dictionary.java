@@ -23,6 +23,7 @@ public class Dictionary {
 
         while (scanFile.hasNextLine()) {
             notParsedLine = scanFile.nextLine();
+            notParsedLine = notParsedLine.replaceAll("[.]", " ");
             record.addAll(List.of(notParsedLine.split("[|]",0)));
             wordList.add(new WordMeaning(record.get(1), record.get(2)));
             record.clear();

@@ -9221,7 +9221,7 @@
 |frontline|ফ্রন্টলাইন
 |fuck|যৌন-সহবাস
 |fukuoka|ফুকুওকা
-|full.stop|দাঁড়ি
+|fullstop|দাঁড়ি
 |furan|ফুরান
 |furanal|ফুরানল
 |gabon|গ্যাবন
