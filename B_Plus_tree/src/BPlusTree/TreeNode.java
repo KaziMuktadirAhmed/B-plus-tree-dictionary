@@ -39,12 +39,12 @@ public class TreeNode extends Node{
     }
 
     public void preprendChild (Node child) {
-        for (int i = this.currentChildCount -1; i>=0; i--) { this.childs[i+1] = this.childs[i]; }
+        for (int i = this.currentChildCount-1; i>=0; i--) { this.childs[i+1] = this.childs[i]; }
         this.childs[0] = child;
         this.currentChildCount++;
     }
 
-    public void inserChild (Node child, int index) {
+    public void insertChild(Node child, int index) {
         for (int i = this.currentChildCount -1; i>=index; i--) { this.childs[i+1] = this.childs[i]; }
         this.childs[index] = child;
         this.currentChildCount++;

@@ -5,9 +5,9 @@ import Dictionaries.WordMeaning;
 import java.util.Arrays;
 
 public class LeafNode extends Node{
-    private int maxSlot;
-    private int minSlot;
-    private int currentWordCount;
+    public int maxSlot;
+    public int minSlot;
+    public int currentWordCount;
 
     public LeafNode leftSibling;
     public LeafNode rightSibling;

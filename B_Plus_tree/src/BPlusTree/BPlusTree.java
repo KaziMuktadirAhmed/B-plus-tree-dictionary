@@ -9,7 +9,7 @@ import java.util.Comparator;
 
 public class BPlusTree {
     private Dictionary dictionary = new Dictionary();
-    public static int n = 5;
+    public int n = 5;
 
     public TreeNode root;
     public LeafNode firstLeaf;
@@ -101,7 +101,7 @@ public class BPlusTree {
         String[] halfKeys = new String[this.n];
 
         for (int i=splitPoint+1; i<initialKeys.length; i++) {
-            halfKeys[i - splitPoint - 1] =initialKeys[i];
+            halfKeys[i - splitPoint - 1] = initialKeys[i];
             treeNode.removeKey(i);
         }
         
@@ -142,7 +142,7 @@ public class BPlusTree {
             Arrays.sort(parent.keys, 0, parent.currentChildCount);
 
             int newChildIndex = parent.findChildIndex(treeNode) + 1;
-            parent.inserChild(newSiblingNode, newChildIndex);
+            parent.insertChild(newSiblingNode, newChildIndex);
 
             newSiblingNode.parent = parent;
         }
@@ -177,4 +177,176 @@ public class BPlusTree {
             if (childs[i] == null) { return i; }
         return -1;
     }
+
+    /**
+      * API function: Search
+      * @param key:The key to be searched within the B+ tree
+      * The functions outputs a line in the console containing the key-value pair
+      */
+    public void search (String key) {
+        if (isEmpty()) {
+            System.out.println("Could not find word in dictionary");
+        }
+
+        LeafNode leafNode;
+        if (this.root == null) leafNode = this.firstLeaf;
+        else leafNode = findLeafNode(key);
+
+        WordMeaning[] words = leafNode.wordMeanings;
+        int index = searchInsideNodes(words, key);
+
+        if (index < 0)
+            System.out.println("Could not find word in dictionary");
+        else
+            words[index].print();
+    }
+
+    /**
+     * API function: Insert
+     * @param key: A String key to be used to search the inserted value in the tree
+     * @param value: the value associated with the given key
+     * Given a key-value pair the function performs insertion on the B+ tree
+     * @return true if insert was successful false if insert failed
+     */
+    public boolean insert (String key, String value) {
+        boolean insertSuccess = false;
+
+        if (isEmpty()) {
+
+            // Create a new Leaf Node if the tree is empty
+
+            this.firstLeaf = new LeafNode(this.n, new WordMeaning(key, value));
+            insertSuccess = true;
+
+        } else {
+
+            // Finds leaf node to insert the key-value pair
+
+            LeafNode leafNode;
+            if (this.root == null) leafNode = this.firstLeaf;
+            else leafNode = findLeafNode(key);
+
+            /*
+              Inserts the key-value pair in the B+ tree.
+              Insertion fails if the leaf node is full
+              The if claus handles the splitting and modification of the nodes
+             */
+            if (!leafNode.insert(new WordMeaning(key, value))) {
+
+                // Insert the new key-value pair and sort the whole word list in the leaf node
+
+                leafNode.wordMeanings[leafNode.currentWordCount] = new WordMeaning(key, value);
+                leafNode.currentWordCount++;
+                sortWords(leafNode.wordMeanings);
+
+                // Split the sorted words into two halves
+
+                int midpoint = getMidPoint();
+                WordMeaning[] halfWords = splitWordsFromLeafNode(leafNode, midpoint);
+
+                /*
+                  If the parent of the leaf node is null it means the tree has only one node
+                  while inserting this leaf will be splitted into two leaf node
+                  a new tree node will be created to become the parent of the two leaf node
+                 */
+                if (leafNode.parent == null) {
+                    String[] parent_Keys = new String[this.n];
+                    parent_Keys[0] = halfWords[0].engWord;
+                    TreeNode parent = new TreeNode(this.n, parent_Keys);
+                    leafNode.parent = parent;
+                    parent.appendChild(leafNode);
+
+                /*
+                * If parent exists then
+                * the first word from right sibling is inserted in the parent as key
+                * */
+                } else {
+                    String newParentKey = halfWords[0].engWord;
+                    leafNode.parent.keys[leafNode.parent.currentChildCount-1] = newParentKey;
+                    Arrays.sort(leafNode.parent.keys, 0, leafNode.parent.currentChildCount);
+                }
+
+                // Create a new leaf node to hold the latter half of word list
+                LeafNode siblingLeafNode = new LeafNode(this.n, halfWords, leafNode.parent);
+
+                // Update the child list on parent node
+                int siblingChildIndex = leafNode.parent.findChildIndex(leafNode) + 1;
+                leafNode.parent.insertChild(siblingLeafNode, siblingChildIndex);
+
+                // Make the two leaf nodes siblings of one another
+                siblingLeafNode.rightSibling = leafNode.rightSibling;
+                if (siblingLeafNode.rightSibling != null) {
+                    siblingLeafNode.rightSibling.leftSibling = siblingLeafNode;
+                }
+                leafNode.rightSibling = siblingLeafNode;
+                siblingLeafNode.leftSibling = leafNode;
+
+                /*
+                * Sets up parent for the two new leaf nodes
+                * modifies the intermediate tree nodes if root exists
+                * If not then sets the parent as the root of the tree
+                * */
+                if (this.root == null) {
+                    this.root = leafNode.parent;
+
+                    /*
+                    * If parent is overfull then
+                    * Split tree node into two and insert the first key in parent
+                    * repeat the process until no is deficiency found
+                    * */
+                } else {
+                    TreeNode treeNode = leafNode.parent;
+
+                    // Goes up until the root of the tree is reached
+                    while (treeNode != null) {
+                        if (treeNode.isOverfull()) {
+                            splitTreeNode(treeNode);
+                        } else {
+                            break;
+                        }
+                        treeNode = treeNode.parent;
+                    }
+                }
+            }
+        }
+
+        return insertSuccess;
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
