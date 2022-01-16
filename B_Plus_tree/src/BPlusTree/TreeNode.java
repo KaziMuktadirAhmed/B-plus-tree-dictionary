@@ -6,8 +6,8 @@ public class TreeNode extends Node{
     public int currentChildCount;
 
     // still unsure about this two
-    private TreeNode leftSibling;
-    private TreeNode rightSibling;
+    public TreeNode leftSibling;
+    public TreeNode rightSibling;
 
     public String[] keys;
     public Node[] childs;
