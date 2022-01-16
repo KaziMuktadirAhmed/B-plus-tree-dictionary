@@ -2,6 +2,7 @@ package BPlusTree;
 
 import Dictionaries.WordMeaning;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 
@@ -16,10 +17,17 @@ public class BPlusTree {
         this.root = null;
     }
 
-    private int searchInsideNodes (WordMeaning[] wordMeanings, int listSize, String target) {
-        int targetIndex = -1;
+    private ArrayList<Integer> searchInsideNodes (WordMeaning[] wordMeanings, int listSize, String target) {
+        ArrayList<Integer> targetIndex = new ArrayList<>();
+        int count = 0;
+        targetIndex.add(0);
+
         for (int i=0; i<listSize; i++) {
-            if (target.compareTo(wordMeanings[i].engWord) == 0) { targetIndex = i; }
+            if (target.compareTo(wordMeanings[i].engWord) == 0) {
+                count++;
+                targetIndex.add(i);
+                targetIndex.set(0,count);
+            }
         }
         return targetIndex;
     }
@@ -189,12 +197,16 @@ public class BPlusTree {
         else leafNode = findLeafNode(key);
 
         WordMeaning[] words = leafNode.wordMeanings;
-        int index = searchInsideNodes(words, leafNode.currentWordCount, key);
+        ArrayList<Integer> indexes = searchInsideNodes(words, leafNode.currentWordCount, key);
 
-        if (index < 0)
+        if (indexes.get(0) == 0)
             System.out.println("Could not find word in dictionary");
-        else
-            words[index].print();
+        else{
+            for (int i=1; i<=indexes.get(0); i++) {
+                System.out.print(i + ". ");
+                words[indexes.get(i)].print();
+            }
+        }
     }
 
     /**
