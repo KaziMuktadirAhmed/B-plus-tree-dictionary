@@ -1,6 +1,5 @@
 package BPlusTree;
 
-import Dictionaries.Dictionary;
 import Dictionaries.WordMeaning;
 
 import java.io.FileNotFoundException;
@@ -8,29 +7,29 @@ import java.util.Arrays;
 import java.util.Comparator;
 
 public class BPlusTree {
-    private Dictionary dictionary = new Dictionary();
+//    private Dictionary dictionary = new Dictionary();
     public int n = 5;
 
     public TreeNode root;
     public LeafNode firstLeaf;
 
-    public  BPlusTree () throws FileNotFoundException {}
+//    public  BPlusTree () throws FileNotFoundException {}
     public  BPlusTree (int n) throws FileNotFoundException {
         this.n = n;
         this.root = null;
 //        this.firstLeaf = new LeafNode();
     }
 
-    private int searchInsideNodes (WordMeaning[] wordMeanings, String target) {
+    private int searchInsideNodes (WordMeaning[] wordMeanings, int listSize, String target) {
         int targetIndex = -1;
-        for (int i=0; i<wordMeanings.length; i++) {
+        for (int i=0; i<listSize; i++) {
             if (target.compareTo(wordMeanings[i].engWord) == 0) { targetIndex = i; }
         }
         return targetIndex;
     }
 
     private LeafNode findLeafNode (TreeNode startNode, String key) {
-        String[] keys = startNode.keys;
+//        String[] keys = startNode.keys;
         int i;
 
         for (i=0; i<startNode.currentChildCount-1; i++) {
@@ -186,6 +185,7 @@ public class BPlusTree {
     public void search (String key) {
         if (isEmpty()) {
             System.out.println("Could not find word in dictionary");
+            return;
         }
 
         LeafNode leafNode;
@@ -193,7 +193,7 @@ public class BPlusTree {
         else leafNode = findLeafNode(key);
 
         WordMeaning[] words = leafNode.wordMeanings;
-        int index = searchInsideNodes(words, key);
+        int index = searchInsideNodes(words, leafNode.currentWordCount, key);
 
         if (index < 0)
             System.out.println("Could not find word in dictionary");

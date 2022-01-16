@@ -40,7 +40,7 @@ public class LeafNode extends Node{
         if(this.isFull()) return false;
         else {
             this.wordMeanings[currentWordCount] = wm;
-            currentWordCount++;
+            this.currentWordCount++;
             Arrays.sort(this.wordMeanings, 0, this.currentWordCount);
             return true;
         }
